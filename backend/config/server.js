@@ -1,23 +1,23 @@
-import express from 'express';
+import express from 'express';  
 import dotenv from 'dotenv';
 import cors from 'cors';
-import connectDB from '../config/Lib/db.js';
+import connectDB from './Lib/db.js';
+import userRoutes from './Routes/userRoute.js';
 
-// Load environment variables from .env file
+// Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
-
-// Create the Express app
+// Initialize Express app
 const app = express();
-
-// --- Middlewares ---
+const PORT = process.env.PORT;
+ 
+// Middleware setup
 app.use(cors());
 app.use(express.json());
 
-// --- Start the Server ---
-const PORT = process.env.PORT;
+connectDB();
+
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
